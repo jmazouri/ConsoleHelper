@@ -11,30 +11,34 @@ namespace ConsoleHelper
         public static T ReadLine<T>()
         {
             string input = Console.ReadLine();
-            object ret = null;
 
             if (typeof(T) == typeof(Int32))
             {
                 int curVal = 0;
                 Int32.TryParse(input, out curVal);
-                ret = curVal;
+                return Return<T>(curVal);
             }
 
             if (typeof(T) == typeof(Double))
             {
                 double curVal = 0;
                 Double.TryParse(input, out curVal);
-                ret = curVal;
+                return Return<T>(curVal);
             }
 
             if (typeof(T) == typeof(Single))
             {
                 float curVal = 0;
                 Single.TryParse(input, out curVal);
-                ret = curVal;
+                return Return<T>(curVal);
             }
 
-            return (T)Convert.ChangeType(ret, typeof(T));
+            return Return<T>(input);
+        }
+
+        private static T Return<T>(object val)
+        {
+            return (T)Convert.ChangeType(val, typeof(T));
         }
 
         public static T ReadLine<T>(Predicate<T> conditionPredicate)

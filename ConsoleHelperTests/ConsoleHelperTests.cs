@@ -8,6 +8,7 @@ namespace ConsoleHelperTests
         {
             TestInt();
             TestDouble();
+            TestFloat();
 
             Console.Read();
         }
@@ -23,6 +24,13 @@ namespace ConsoleHelperTests
         {
             Console.WriteLine("Type a double: ");
             double result = SuperConsole.ReadLine<double>();
+            Console.WriteLine("Result: {0}", result);
+        }
+
+        static void TestFloat()
+        {
+            Console.WriteLine("Type a float: ");
+            float result = SuperConsole.ReadLine<float>();
             Console.WriteLine("Result: {0}", result);
         }
     }
