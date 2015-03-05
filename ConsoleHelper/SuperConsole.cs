@@ -1,56 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ConsoleHelper
 {
     public static class SuperConsole
     {
-        public static T ReadLine<T>()
+        public static T ReadLine<T>(T defaultResult = default(T))
         {
             string input = Console.ReadLine();
 
-            if (typeof(T) == typeof(Int32))
+            try
             {
-                int curVal = 0;
-                Int32.TryParse(input, out curVal);
-                return Return<T>(curVal);
+                var parsedValue = Convert.ChangeType(input, typeof(T));
+                return Return<T>(parsedValue);
             }
-
-            if (typeof(T) == typeof(Double))
+            catch (FormatException)
             {
-                double curVal = 0;
-                Double.TryParse(input, out curVal);
-                return Return<T>(curVal);
+                return Return<T>(defaultResult);
             }
-
-            if (typeof(T) == typeof(Single))
-            {
-                float curVal = 0;
-                Single.TryParse(input, out curVal);
-                return Return<T>(curVal);
-            }
-
-            return Return<T>(input);
         }
 
         private static T Return<T>(object val)
         {
-            return (T)Convert.ChangeType(val, typeof(T));
+            return (T)val;
         }
 
-        public static T ReadLine<T>(Predicate<T> conditionPredicate)
+        public static T ReadLine<T>(Predicate<T> conditionPredicate, T defaultResult = default(T))
         {
-            T res = ReadLine<T>();
-
-            if (!conditionPredicate.Invoke(res))
-            {
-                return default(T);
-            }
-
-            return res;
+            var res = ReadLine(defaultResult);
+            return !conditionPredicate.Invoke(res) ? defaultResult : res;
         }
     }
 }
